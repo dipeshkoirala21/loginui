@@ -1,0 +1,27 @@
+{
+  "editor.tabSize": 2,
+  "emmet.includeLanguages": { "javascript": "javascriptreact" },
+  "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/node_modules/**": true
+  },
+  "files.exclude": {
+      "**/.git": true,
+      "**/.svn": true,
+      "**/.hg": true,
+      "**/CVS": true,
+      "**/.DS_Store": true,
+      "**/node_modules": true,
+      "**/.vscode": true,
+      "**/.expo": true,
+  },
+  "prettier.trailingComma": "all",
+  "prettier.singleQuote": true,
+  "prettier.requireConfig": true,
+  "javascript.preferences.quoteStyle": "single",
+  "editor.formatOnSave": true,
+  "files.autoSave": "off",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  
+}
