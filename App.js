@@ -1,26 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   StyleSheet, 
   View,
   Image,
   Button,
+  AsyncStorage,
+  ActivityIndicator,
 } from 'react-native';
-import { createStackNavigator, createAppContainer } from 'react-navigation';
+import { createStackNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
 
-import Buttons from './Buttons';
-import Login from './Login';
-import SignUp from './SignUp';
+import Buttons from './components/Buttons';
+import Login from './screens/Login';
+import SignUp from './screens/SignUp';
+import Drawernavigation from './screens/Drawernavigation';
+
 
 function Home(props) {
+  
   return (
     <View style={styles.container}>
-      <View style={{}}>
+      <View >
         <Image
           style={{ width: 100, height: 100 }}
           source={require("./assets/image.png")}
         />
       </View>
-      <Button onPress={() => props.navigation.navigate('Login')} title="goto login" />
 
       <View style={styles.button}>
         <Buttons navigate={props.navigation.navigate} /> 
@@ -56,30 +60,67 @@ const styles = StyleSheet.create({
     bottom:0,
     
 
-  }
+  } 
 });
 
+const Welcome = (props) => {
 
-// class Login extends React.Component {
-//   render() {
-//             return (
-//                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-//           <Text>Login Screen</Text>
-//       </View>
-//     );
-//   }
-// }
+  const getToken = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      console.log(token, 'token')
+      if (token) {
+        props.navigation.navigate('Drawernavigation');
+      } else {
+        console.log('reched here')
+        props.navigation.navigate('Home');
+      }
+    } catch (e) {
+    } 
+  } 
+  useEffect(() => {
+    getToken();
+  }, []);
+  return <ActivityIndicator />;
+}
 
-const RootStack = createStackNavigator(
+const RootStack = createSwitchNavigator(
   {
-    Home,
-    Login,
-    SignUp,
-  },
-  {
-    initialRouteName: 'Home',
+    Welcome,
+    Home:{
+      screen: Home,
+      navigationOptions: {
+        header: null,
+    }
+    },
+    Login:{
+      screen:Drawernavigation,
+      navigationOptions:{
+        header:Login,
+      }
+    },
+    SignUp:{
+      screen:SignUp,
+      navigationOptions:{
+        header:SignUp,
+      }
+    },
+    Drawernavigation:{
+      screen:Drawernavigation,
+      navigationOptions:{
+        header:null,
+      }
+    }
   }
 );
+
+// const App = createSwitchNavigator(
+//   { 
+//     AuthLoading:AuthLoadingScreen,
+//     App:App
+//   }
+// )
+
 
 const AppContainer = createAppContainer(RootStack);
 
